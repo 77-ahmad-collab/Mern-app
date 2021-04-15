@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 const Register = () => {
+  const history = useHistory();
   const [user, setuser] = useState({
     name: "",
     email: "",
@@ -49,8 +51,14 @@ const Register = () => {
       <br></br>
       <button
         onClick={async () => {
-          const res = await axios.post("/signup", user);
-          console.log(res, "myres");
+          const res = await axios
+            .post("/signup", user)
+            .then((res) => {
+              console.log(res);
+              history.push("/login");
+            })
+            .catch((err) => console.log(err.response));
+          // console.log(res, "myres");
         }}
       >
         {" "}

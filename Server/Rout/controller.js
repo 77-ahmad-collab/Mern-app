@@ -8,7 +8,7 @@ const signup = async (req, res) => {
     // console.log(req.body);
 
     if (verify_e) {
-      return res.send("email exists");
+      return res.status(409).send("email exists");
     }
     // console.log(verify_e);
     const addData = await new user({
@@ -30,7 +30,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const person = await user.findOne({ email });
     if (!person) {
-      return res.status(401).send("invalid ttt");
+      return res.status(404).send("invalid ttt");
     }
     const match = await bcrypt.compare(password, person.password);
     // console.log(match);
@@ -40,9 +40,19 @@ const login = async (req, res) => {
         expires: new Date(Date.now + 60000),
       });
       return res.send("you have loged in");
+    } else {
+      return res.status(401).send("invalid hay bjais");
     }
   } catch (error) {
     res.status(401).send("error");
   }
 };
-module.exports = { signup, login };
+
+const about = async (req, res) => {
+  try {
+    res.send(req.mainuser);
+  } catch (error) {
+    res.send(error);
+  }
+};
+module.exports = { signup, login, about };

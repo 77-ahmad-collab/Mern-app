@@ -1,6 +1,9 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 
 const Login = () => {
+  const history = useHistory();
   const [user, setuser] = useState({
     email: "",
     password: "",
@@ -30,6 +33,25 @@ const Login = () => {
         value={user.password}
         onChange={handlechange}
       />
+      <button
+        onClick={async () => {
+          const res = await axios
+            .post("/login", user)
+            .then((resp) => {
+              console.log(resp);
+              history.push("/");
+            })
+
+            .catch((err) => console.log(err.response, "ah"));
+          if (res) {
+            if (res.status == 200) {
+              history.push("/about");
+            }
+          }
+        }}
+      >
+        Submit
+      </button>
     </div>
   );
 };
