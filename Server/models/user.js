@@ -12,6 +12,17 @@ const userSchema = new mongoose.Schema({
       token: String,
     },
   ],
+  messages: [
+    {
+      name: String,
+      email: String,
+      message: String,
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 });
 
 const u = "user";
@@ -22,6 +33,15 @@ userSchema.pre("save", async function () {
     this.cpassword = await bcrypt.hash(this.cpassword, 10);
   }
 });
+userSchema.methods.addData = async function (name, email, message) {
+  try {
+    console.log("run");
+    this.messages = this.messages.concat({ name, email, message });
+    this.save();
+  } catch (error) {
+    console.log(error);
+  }
+};
 userSchema.methods.getToken = async function () {
   try {
     const tok = jwt.sign({ id: this.id }, process.env.SECRET);

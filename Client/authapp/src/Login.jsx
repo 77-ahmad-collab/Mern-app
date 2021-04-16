@@ -42,7 +42,10 @@ const Login = () => {
               history.push("/");
             })
 
-            .catch((err) => console.log(err.response, "ah"));
+            .catch((err) => {
+              console.log(err.response, "ah");
+              history.push("/login");
+            });
           if (res) {
             if (res.status == 200) {
               history.push("/about");

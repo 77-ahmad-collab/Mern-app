@@ -52,7 +52,20 @@ export const Contact = () => {
         onChange={handlechange}
         placeholder="enter your message"
       />
-      <button>Submit</button>
+      <button
+        onClick={async () => {
+          await axios
+            .post("/contact", dat)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err.response);
+            });
+        }}
+      >
+        Submit
+      </button>
     </div>
   );
 };

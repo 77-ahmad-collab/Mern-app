@@ -37,7 +37,7 @@ const login = async (req, res) => {
     if (match) {
       const token = await person.getToken();
       res.cookie("jwt", token, {
-        expires: new Date(Date.now + 60000),
+        expires: new Date(Date.now + 10000),
       });
       return res.send("you have loged in");
     } else {
@@ -63,4 +63,16 @@ const contact = async (req, res) => {
     res.send(error);
   }
 };
-module.exports = { signup, login, about, contact };
+const home = async (req, res) => {
+  res.send(req.name);
+};
+
+const getContact = async (req, res) => {
+  const findeme = await user.findOne({ email: req.body.email });
+  const { name, email, message } = req.body;
+  console.log(findeme);
+  findeme.addData(name, email, message);
+
+  res.send("data posted sucessfully");
+};
+module.exports = { signup, login, about, contact, home, getContact };
