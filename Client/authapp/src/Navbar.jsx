@@ -13,6 +13,7 @@ export const Navbar = () => {
         REgiser
       </Link>
       <Link to="/about">About</Link>
+      <Link to="/contact"> Contact</Link>
     </div>
   );
 };

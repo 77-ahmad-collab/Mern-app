@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const user = require("../models/user");
 require("dotenv").config();
-const { signup, login, about } = require("./controller");
+const { signup, login, about, contact } = require("./controller");
 router.post("/signup", signup);
 
 router.post("/login", login);
@@ -22,10 +22,25 @@ const authy = async (req, res, next) => {
     req.mainuser = mainuser;
     next();
   } catch (error) {
-    res.send(error, "catch");
+    res.status(400).send(error);
   }
 };
 
 router.get("/about", authy, about);
+
+const middle = async (req, res, next) => {
+  const verify = await jwt.verify(req.cookies.jwt, process.env.SECRET);
+  const mainuser = await user.findOne({
+    _id: verify.id,
+    "tokens.token": req.cookies.jwt,
+  });
+  if (!mainuser) {
+    res.status(400).send("notlogedin");
+  }
+  req.mainuser = mainuser;
+  next();
+};
+
+router.get("/contact", middle, contact);
 
 module.exports = router;

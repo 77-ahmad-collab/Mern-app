@@ -55,4 +55,12 @@ const about = async (req, res) => {
     res.send(error);
   }
 };
-module.exports = { signup, login, about };
+
+const contact = async (req, res) => {
+  try {
+    res.send(req.mainuser);
+  } catch (error) {
+    res.send(error);
+  }
+};
+module.exports = { signup, login, about, contact };

@@ -7,9 +7,9 @@ export const About = () => {
   const callme = async () => {
     const dat = await axios
       .get("/about")
-      .then((res) => console.log(res))
+      .then((res) => console.log(res, "kk"))
       .catch((err) => {
-        console.log(err.response);
+        console.log(err.response.status, "er");
         history.push("/");
       });
     // console.log(dat);

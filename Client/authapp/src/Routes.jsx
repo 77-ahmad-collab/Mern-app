@@ -1,6 +1,7 @@
 import React from "react";
 import { Route } from "react-router";
 import { About } from "./About";
+import { Contact } from "./Contact";
 import { Home } from "./Home";
 import Login from "./Login";
 import { Navbar } from "./Navbar";
@@ -21,6 +22,9 @@ export const Routes = () => {
       </Route>
       <Route exact path="/about">
         <About />
+      </Route>
+      <Route exact path="/contact">
+        <Contact />
       </Route>
     </div>
   );
