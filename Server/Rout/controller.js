@@ -64,7 +64,7 @@ const contact = async (req, res) => {
   }
 };
 const home = async (req, res) => {
-  res.send(req.name);
+  res.send("you are getting this realtime datas");
 };
 
 const getContact = async (req, res) => {

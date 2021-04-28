@@ -1,24 +1,7 @@
-// import { BrowserRouter } from "react-router-dom";
-// import "./App.css";
-// import { Routes } from "./Routes";
-// function App() {
-//   return (
-//     <>
-//       <BrowserRouter>
-//         <div className="App">this is the client app</div>
-//         <Routes />
-//       </BrowserRouter>
-//     </>
-//   );
-// }
-
-// export default App;
-
 import logo from "./logo.svg";
 import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
-import { read } from "node:fs";
 
 function App() {
   const [data, setdata] = useState({
@@ -47,32 +30,56 @@ function App() {
     previewfile(file);
   };
   const previewfile = (file) => {
-    // const reader = new FileReader();
-    // reader.readAsDataURL(file);
-    // reader.onloadend = () => {
-    //   setpreviewsource(reader.result);
-    // };
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setpreviewsource(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const callsubmit = (e) => {
     e.preventDefault();
     // if (!selected) return;
-    // uploadimage(previewsource);
+    uploadimage(previewsource);
   };
-  const uploadimage = (base64image) => {
+  const uploadimage = async (base64image) => {
     // console.log(base64image);
+    const stringfy = JSON.stringify({
+      img: base64image,
+    });
+    // console.log(stringfy, "jaj");
+    await axios
+      .post("/add", {
+        imagedata: base64image,
+        name: "23",
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
   return (
     <div className="App">
       {/* start of techniwue 2 */}
 
-      <form>
-        <input type="file" name="image" />
+      <form onSubmit={callsubmit}>
+        <input type="file" name="image" onChange={callme} />
         <button type="submit">Submit</button>
       </form>
-      {/* {previewsource && (
+      {previewsource && (
         <img src={previewsource} alt="logo" width="330px" height="300px" />
-      )} */}
+      )}
+      <img src={fileinputstate} alt="ahmad" />
+      <button
+        onClick={() => {
+          axios.get("/get").then((res) => {
+            console.log(res);
+            setfileinputstate(res.data.src);
+          });
+        }}
+      >
+        GET
+      </button>
       {/* end of technique 2 */}
       {/* technique 1 */}
       {/* <form

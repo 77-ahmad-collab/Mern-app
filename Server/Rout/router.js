@@ -36,7 +36,7 @@ const authy = async (req, res, next) => {
 
 router.get("/about", authy, about);
 
-router.get("/home", authy, home);
+router.get("/home", home);
 
 const middle = async (req, res, next) => {
   const verify = await jwt.verify(req.cookies.jwt, process.env.SECRET);
